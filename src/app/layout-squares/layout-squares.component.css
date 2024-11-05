@@ -1,0 +1,36 @@
+.container {
+    width:  500px;
+    height: 500px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr;
+    align-items: center;
+    justify-items: center;
+    /* border: 2px solid red; */
+}
+
+button {
+    position: fixed;
+    top: 90%;
+    padding: 10px;
+    border: none;
+    background-color: cornflowerblue;
+    border-radius: 3px;
+    color: aliceblue;
+    cursor: pointer;
+}
+
+.winner {
+    position: fixed;
+    background-color: darkcyan;  
+    color: aliceblue;
+    top: 2%;
+    padding: 10px;
+    border-radius: .5rem;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.title {
+    background: none;
+}
+

@@ -1,0 +1,14 @@
+<div class="container">
+    <h1 class="winner" *ngIf="isWinner; else title">Player {{ !isPlayerOne ? '1' : '2' }} won!!</h1>
+    <ng-template #title>
+        <h2 class="winner title" >Tic-Tac-Toe</h2>
+    </ng-template>
+    <app-square
+        *ngFor="let item of squares; let i = index"
+        [isX]="item"
+        (click)="isWinner ? null : selectSquare(i)"
+    />
+    <button *ngIf="isDone || isWinner" (click)="newGame()">
+        Reset game
+    </button>
+</div>
