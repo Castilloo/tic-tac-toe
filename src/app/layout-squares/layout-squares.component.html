@@ -1,8 +1,4 @@
 <div class="container" *ngIf="isSelectedGame">
-    <!-- <h1 *ngIf="!isDone else draw;" class="X-or-O">Turn: {{ isPlayerOne ? 'X' : 'O' }}</h1>
-    <ng-template #draw>
-        <h1 class="X-or-O">Draw</h1>
-    </ng-template> -->
 
     <h1 class="X-or-O">{{ isDone ? 'Draw' : 'Turn: ' + (isPlayerOne ? 'X' : 'O') }}</h1>
     
