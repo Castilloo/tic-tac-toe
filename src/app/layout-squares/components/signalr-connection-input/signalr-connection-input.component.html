@@ -1,0 +1,26 @@
+
+<div class="container mb-3">
+    <h2 class="title" >Tic-Tac-Toe</h2>
+    <button class="btn btn-primary" (click)="localGame()">
+        Local game
+    </button>
+    <button *ngIf="!matchListId else matchId" class="btn btn-primary" (click)="createMatchList()">
+        Remote game
+    </button>
+    <ng-template #matchId>
+        Copy this: <strong>{{ matchListId }}</strong>
+    </ng-template>
+
+    <div class="input-item mb-3" #matchId>
+        <input 
+            type="text" 
+            id="matchListInput" 
+            [(ngModel)]="matchListIdInput" 
+            placeholder="Paste game id"
+        >
+        <button class="btn btn-input" (click)="joinMatchList()">Join</button>
+    </div>
+    <div class="error-msg" *ngIf="errorConnDiv">
+        <span>Error connection</span>
+    </div>
+</div>

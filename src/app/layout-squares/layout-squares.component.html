@@ -1,14 +1,26 @@
-<div class="container">
-    <h1 class="winner" *ngIf="isWinner; else title">Player {{ !isPlayerOne ? '1' : '2' }} won!!</h1>
-    <ng-template #title>
-        <h2 class="winner title" >Tic-Tac-Toe</h2>
-    </ng-template>
+<div class="container" *ngIf="isSelectedGame">
+    <!-- <h1 *ngIf="!isDone else draw;" class="X-or-O">Turn: {{ isPlayerOne ? 'X' : 'O' }}</h1>
+    <ng-template #draw>
+        <h1 class="X-or-O">Draw</h1>
+    </ng-template> -->
+
+    <h1 class="X-or-O">{{ isDone ? 'Draw' : 'Turn: ' + (isPlayerOne ? 'X' : 'O') }}</h1>
+    
+    <h1 class="winner" *ngIf="isWinner">{{ !isPlayerOne ? 'X' : 'O' }} won!!</h1>
     <app-square
         *ngFor="let item of squares; let i = index"
         [isX]="item"
-        (click)="isWinner ? null : selectSquare(i)"
+        (click)="isWinner || activeButtons ? null : selectSquare(i)"
     />
     <button *ngIf="isDone || isWinner" (click)="newGame()">
         Reset game
     </button>
 </div>
+
+<app-signalr-connection-input 
+    *ngIf="!isSelectedGame"
+    (onMatchIdEvent)="onMatchId($event)" 
+    (onActiveButtons)="onActiveButtons($event)"
+    (onGameSelected)="onGameSelected($event)"
+>
+</app-signalr-connection-input>

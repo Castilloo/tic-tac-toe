@@ -11,3 +11,7 @@
     font-weight: bolder;
     font-size: 100px;
 }
+
+.square-disabled {
+    background-color: rgb(37, 63, 63);
+}

@@ -1,10 +1,11 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
+import { SignalRService } from './signalr.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SquaresService {
+export class SquaresService implements OnInit{
 
   private squares: boolean[] = Array(9).fill(null);
   private isPlayerOne = true;
@@ -12,6 +13,17 @@ export class SquaresService {
 
   private squaresSubject = new BehaviorSubject<boolean[]>(this.squares);
   public squares$ = this.squaresSubject.asObservable();
+
+  constructor(private _signalRService: SignalRService){}
+
+  ngOnInit(): void {
+    this._signalRService.connect()
+      .subscribe({
+        next: () => {
+          this._signalRService.onGetIsMultiplayer();
+        }
+      })
+  }
 
   get isPlayerOneValue(): boolean {
     return this.isPlayerOne;
@@ -29,8 +41,15 @@ export class SquaresService {
     this.squaresSubject.next(this.squares);
   }
 
+  selectSquareSignalR(index: number): void {
+    if(this.squares[index] !== null) return;
+    this.squares[index] = this.isPlayerOne;
+    this.playerWon(this.isPlayerOne);
+
+  }
+
   private playerWon(isPlayer: boolean): void {
-    const sq = this.squares;      
+    const sq = this.squares; 
     const numbersToReview = [ 0, 1, 2, 3, 6 ];
     
     for(let num of numbersToReview) {
@@ -81,5 +100,18 @@ export class SquaresService {
     this.isPlayerOne = true;
     this.isWinner = false;
     this.squaresSubject.next([...this.squares]);
+  }
+
+  private isMultiplayer(matchListId: string): void
+  {
+    this._signalRService.getIsMultiplayer(matchListId)
+      .subscribe({
+        next: isMulti => {
+          // console.log("size actualizado, " + this.isMultiplayer);
+        },
+        error: err => {
+          console.error("Error en obtener tamaño del grupo: ", err);
+        }
+      });
   }
 }
